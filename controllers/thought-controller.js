@@ -5,7 +5,7 @@ const ThoughtController = {
     getThoughts(req, res) {
         Thought.find({})
         .populate({
-            path: 'user',
+            path: 'username',
             select: '-__v'
         })
         .select('-__v')
@@ -13,14 +13,14 @@ const ThoughtController = {
         .then(dbThoughtData => res.json(dbThoughtData))
         .catch( err => {
             console.log(err);
-            res.sendStatus(400);
+            res.status(500).json(err);
         });
     },
     // get thought by id
     getThoughtById({ params }, res) {
-        Thought.findOne({ _id: params.id })
+        Thought.findById({ _id: params.id })
         .populate({
-            path: 'user',
+            path: 'username',
             select: '-__v'
         })
         .select('-__v')
